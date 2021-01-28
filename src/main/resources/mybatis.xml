@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!--    设置别名-->
+    <typeAliases>
+<!--        type  类型  实体类    alias 指定的别名的名字-->
+        <typeAlias type="com.qfedu.one2many.Employee" alias="employee"></typeAlias>
+        <typeAlias type="com.qfedu.one2many.Department" alias="department"></typeAlias>
+        <typeAlias type="com.qfedu.many2many.Course" alias="course"></typeAlias>
+        <typeAlias type="com.qfedu.many2many.Student" alias="student"></typeAlias>
+    </typeAliases>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/java2010?useSSL=false"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+    </environments>
+<!--    在主配置文件见设置映射的配置文件，不然无法使用映射的配置文件-->
+    <mappers>
+        <mapper resource="com/qfedu/one2many/DepartmentMapper.xml"/>
+        <mapper resource="com/qfedu/one2many/EmployeeMapper.xml"/>
+        <mapper resource="com/qfedu/many2many/CourseMapper.xml"/>
+        <mapper resource="com/qfedu/many2many/StudentMapper.xml"/>
+    </mappers>
+</configuration>

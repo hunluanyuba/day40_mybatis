@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--1)mapper接口的全限定名要和mapper映射文件的namespace值一致。
+2)mapper方法名称接口的要和mapper映射文件的statement的id一致。
+3)mapper接口的方法参数类型要和mapper映射文件的statement的parameterType的值一致，而且它的参数是一个。
+4)mapper接口的方法返回值类型要和mapper映射文件的statement的resultType的值一致-->
+<mapper namespace="com.qfedu.one2many.DepartmentDao">
+<!--    <resultMap id="depMap"  type="department" >-->
+<!--        <id column="did" property="did"></id>-->
+<!--        <result column="dname" property="dname"></result>-->
+<!--        <collection property="empList" javaType="list" ofType="employee">-->
+<!--            <id column="eid" property="eid"></id>-->
+<!--            <result column="ename" property="ename"></result>-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+<!--    <select id="findByDid" parameterType="int" resultMap="depMap" >-->
+<!--        select * from employee e inner join department d on e.did = d.did where e.did = #{did}-->
+<!--    </select>-->
+
+    <resultMap id="depMap" type="department">
+        <id column="did" property="did"></id>
+        <result column="dname" property="dname"></result>
+        <collection property="empList" javaType="list" ofType="employee" resultMap="com.qfedu.one2many.EmployeeDao.empMap">
+<!--            <id column="eid" property="eid"></id>-->
+<!--            <result column="ename" property="ename"></result>-->
+        </collection>
+    </resultMap>
+    <select id="findByDid" parameterType="int" resultMap="depMap">
+        select * from employee e inner join department d on e.did = d.did where e.did = #{did}
+    </select>
+
+    <resultMap id="depMap_new" type="department">
+        <id column="did" property="did"></id>
+        <result column="dname" property="dname"></result>
+        <collection property="empList" javaType="list" ofType="com.qfedu.one2many.Employee"
+        resultMap="com.qfedu.one2many.EmployeeDao.empMap">
+        </collection>
+    </resultMap>
+    <select id="findByDid_new" parameterType="int" resultMap="depMap_new">
+        select * from employee e inner join department d on e.did = d.did where e.did = #{did}
+    </select>
+<!--    <resultMap id="selectMap1" type="department">-->
+<!--        <id column="did" property="did"></id>-->
+<!--        <result column="dname" property="dname"></result>-->
+<!--        <collection property="empList" javaType="list" ofType="employee"-->
+<!--                    column="did" select="com.qfedu.one2many.EmployeeDao.selectByDid">-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+<!--    <select id="findByDeptId" parameterType="int" resultMap="selectMap1">-->
+<!--        select * from department where did = #{did}-->
+<!--    </select>-->
+    <resultMap id="deptMap" type="department">
+        <id column="did" property="did"></id>
+        <result column="dname" property="dname"></result>
+        <collection property="empList" javaType="list" ofType="employee" column="did"
+                    select="com.qfedu.one2many.EmployeeDao.selectByDid"></collection>
+    </resultMap>
+    <select id="findByDeptId" parameterType="int" resultMap="deptMap">
+        select * from department where did = #{did}
+    </select>
+</mapper>
